@@ -1,0 +1,27 @@
+body {
+    background: $background;
+
+    #app {
+        background: #fff;
+
+        .user-bar {
+            padding: 15px;
+            border-bottom: 1px solid color('blue-grey', 'lighten-5');
+        }
+    }
+
+    .pad {
+        padding: 40px;
+    }
+
+    .card.alert {
+        &.success {
+            @extend .teal;
+            color: #fff;
+        }
+    }
+
+    .no-shadow {
+        box-shadow: none;
+    }
+}

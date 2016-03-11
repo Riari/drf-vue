@@ -1,0 +1,21 @@
+{
+  "name": "drf_vue",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Rick Mann <hello@ricko.me>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#^0.97.5"
+  }
+}

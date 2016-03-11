@@ -1,0 +1,43 @@
+{% load elixir %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="{% elixir 'css/drf_vue.css' %}"  media="screen,projection">
+</head>
+<body>
+    {% verbatim %}
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col s12">
+                <nav class="blue-grey lighten-4 no-shadow">
+                    <div class="nav-wrapper">
+                        <ul class="hide-on-med-and-down">
+                            <li v-link-active><a v-link="{ path: '/foo' }">Foo</a></li>
+                            <li v-link-active><a v-link="{ path: '/bar' }">Bar</a></li>
+                            <li v-link-active v-if="!user.authenticated"><a v-link="{ name: 'account.login' }">Log in</a></li>
+                            <li v-link-active v-if="user.authenticated"><a v-link="{ name: 'account.login' }" @click="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <div class="user-bar blue-grey-text text-lighten-3 right-align">
+                    Hello, <strong>{{ user.username }}</strong>!
+                </div>
+
+                <div class="pad">
+                    <div class="card alert {{ alert.type }}" v-for="alert in alerts">
+                        <div class="card-content">
+                            {{ alert.message }}
+                        </div>
+                    </div>
+
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+
+    <script type="text/javascript" src="{% elixir 'js/drf_vue.js' %}"></script>
+</body>
+</html>
