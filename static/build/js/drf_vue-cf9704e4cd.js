@@ -119,7 +119,40 @@ exports.default = {
     }
 };
 
-},{"./routes":7,"./utils":8,"vue":36,"vue-router":35}],2:[function(require,module,exports){
+},{"./routes":8,"./utils":9,"vue":37,"vue-router":36}],2:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+    props: ['type', 'persist'],
+    data: function data() {
+        return {
+            show: true
+        };
+    },
+    ready: function ready() {
+        var _this = this;
+
+        if (!this.persist) {
+            setTimeout(function () {
+                return _this.show = false;
+            }, 4000);
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"card alert {{ type }}\" v-if=\"show\">\n    <div class=\"card-content\">\n        <content></content>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\alert.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":37,"vue-hot-reload-api":11}],3:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -136,7 +169,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":36,"vue-hot-reload-api":10}],3:[function(require,module,exports){
+},{"vue":37,"vue-hot-reload-api":11}],4:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -153,7 +186,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":36,"vue-hot-reload-api":10}],4:[function(require,module,exports){
+},{"vue":37,"vue-hot-reload-api":11}],5:[function(require,module,exports){
 'use strict';
 
 var _auth = require('../auth');
@@ -180,12 +213,12 @@ module.exports = {
                 password: this.credentials.password
             };
 
-            _auth2.default.login(this, credentials, 'foo');
+            _auth2.default.login(this, credentials, '/foo');
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h2>Log in</h2>\n<ul>\n    <span v-if=\"errors.non_field_errors\" class=\"red-text\">{{ errors.non_field_errors }}</span>\n</ul>\n<div class=\"row\">\n    <div class=\"input-field col s12\">\n        <input id=\"username\" type=\"text\" v-model=\"credentials.username\">\n        <label for=\"username\">Username</label>\n        <span v-if=\"errors.username\" class=\"yellow-text text-darken-4\">{{ errors.username }}</span>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"input-field col s12\">\n        <input id=\"password\" type=\"password\" v-model=\"credentials.password\">\n        <label for=\"password\" data-success=\"cheese\">Password</label>\n        <span v-if=\"errors.password\" class=\"yellow-text text-darken-4\">{{ errors.password }}</span>\n    </div>\n</div>\n<div class=\"right-align\">\n    <button class=\"btn btn-large\" @click=\"submit()\">Log in</button>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h2>Log in</h2>\n<alert v-if=\"errors.non_field_errors\" type=\"error\" persist=\"true\">{{ errors.non_field_errors }}</alert>\n<div class=\"row\">\n    <div class=\"input-field col s12\">\n        <input id=\"username\" type=\"text\" v-model=\"credentials.username\" @keyup.enter=\"submit()\">\n        <label for=\"username\">Username</label>\n        <span v-if=\"errors.username\" class=\"yellow-text text-darken-4\">{{ errors.username }}</span>\n    </div>\n</div>\n<div class=\"row\">\n    <div class=\"input-field col s12\">\n        <input id=\"password\" type=\"password\" v-model=\"credentials.password\" @keyup.enter=\"submit()\">\n        <label for=\"password\" data-success=\"cheese\">Password</label>\n        <span v-if=\"errors.password\" class=\"yellow-text text-darken-4\">{{ errors.password }}</span>\n    </div>\n</div>\n<div class=\"right-align\">\n    <button class=\"btn btn-large\" @click=\"submit()\">Log in</button>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -197,7 +230,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../auth":1,"vue":36,"vue-hot-reload-api":10}],5:[function(require,module,exports){
+},{"../auth":1,"vue":37,"vue-hot-reload-api":11}],6:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -225,7 +258,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":36,"vue-hot-reload-api":10}],6:[function(require,module,exports){
+},{"vue":37,"vue-hot-reload-api":11}],7:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -248,6 +281,10 @@ var _auth = require('./auth');
 
 var _auth2 = _interopRequireDefault(_auth);
 
+var _alert = require('./components/alert.vue');
+
+var _alert2 = _interopRequireDefault(_alert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Plug in the plugins
@@ -259,14 +296,16 @@ var App = _vue2.default.extend({
     data: function data() {
         return {
             user: _auth2.default.user,
-            alerts: []
+            alert: null
         };
+    },
+    components: {
+        'alert': _alert2.default
     },
     methods: {
         logout: function logout() {
             _auth2.default.logout();
-            this.alerts.push({ type: 'success', message: "You've been logged out." });
-            //Materialize.toast("You've been logged out.", 4000)
+            this.alert = { type: 'success', message: "You've been logged out." };
         }
     }
 });
@@ -279,14 +318,10 @@ var router = new _vueRouter2.default({
 // Define routes
 router.map(_routes2.default);
 
-router.afterEach(function (transition) {
-    console.log(App);
-});
-
 // Start the app
 router.start(App, '#app');
 
-},{"./auth":1,"./routes":7,"vue":36,"vue-resource":24,"vue-router":35}],7:[function(require,module,exports){
+},{"./auth":1,"./components/alert.vue":2,"./routes":8,"vue":37,"vue-resource":25,"vue-router":36}],8:[function(require,module,exports){
 'use strict';
 
 var _bar = require('./components/bar.vue');
@@ -326,16 +361,28 @@ module.exports = {
     }
 };
 
-},{"./components/bar.vue":2,"./components/foo.vue":3,"./components/login.vue":4,"./components/user.vue":5}],8:[function(require,module,exports){
+},{"./components/bar.vue":3,"./components/foo.vue":4,"./components/login.vue":5,"./components/user.vue":6}],9:[function(require,module,exports){
 'use strict';
+
+var _alert = require('./components/alert.vue');
+
+var _alert2 = _interopRequireDefault(_alert);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
     jwt_decode: function jwt_decode(token) {
         return JSON.parse(window.atob(token.split('.')[1]));
+    },
+
+    show_alert: function show_alert(type, message) {
+        var persist = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+        new _alert2.default({ type: type, message: message, persist: persist }).$mount().$appendTo('#app .alerts');
     }
 };
 
-},{}],9:[function(require,module,exports){
+},{"./components/alert.vue":2}],10:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -428,7 +475,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -728,7 +775,7 @@ function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * Before Interceptor.
  */
@@ -748,7 +795,7 @@ module.exports = {
 
 };
 
-},{"../util":34}],12:[function(require,module,exports){
+},{"../util":35}],13:[function(require,module,exports){
 /**
  * Base client.
  */
@@ -815,7 +862,7 @@ function parseHeaders(str) {
     return headers;
 }
 
-},{"../../promise":27,"../../util":34,"./xhr":15}],13:[function(require,module,exports){
+},{"../../promise":28,"../../util":35,"./xhr":16}],14:[function(require,module,exports){
 /**
  * JSONP client.
  */
@@ -865,7 +912,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":27,"../../util":34}],14:[function(require,module,exports){
+},{"../../promise":28,"../../util":35}],15:[function(require,module,exports){
 /**
  * XDomain client (Internet Explorer).
  */
@@ -904,7 +951,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":27,"../../util":34}],15:[function(require,module,exports){
+},{"../../promise":28,"../../util":35}],16:[function(require,module,exports){
 /**
  * XMLHttp client.
  */
@@ -956,7 +1003,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":27,"../../util":34}],16:[function(require,module,exports){
+},{"../../promise":28,"../../util":35}],17:[function(require,module,exports){
 /**
  * CORS Interceptor.
  */
@@ -995,7 +1042,7 @@ function crossOrigin(request) {
     return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
 }
 
-},{"../util":34,"./client/xdr":14}],17:[function(require,module,exports){
+},{"../util":35,"./client/xdr":15}],18:[function(require,module,exports){
 /**
  * Header Interceptor.
  */
@@ -1023,7 +1070,7 @@ module.exports = {
 
 };
 
-},{"../util":34}],18:[function(require,module,exports){
+},{"../util":35}],19:[function(require,module,exports){
 /**
  * Service for sending network requests.
  */
@@ -1123,7 +1170,7 @@ Http.headers = {
 
 module.exports = _.http = Http;
 
-},{"../promise":27,"../util":34,"./before":11,"./client":12,"./cors":16,"./header":17,"./interceptor":19,"./jsonp":20,"./method":21,"./mime":22,"./timeout":23}],19:[function(require,module,exports){
+},{"../promise":28,"../util":35,"./before":12,"./client":13,"./cors":17,"./header":18,"./interceptor":20,"./jsonp":21,"./method":22,"./mime":23,"./timeout":24}],20:[function(require,module,exports){
 /**
  * Interceptor factory.
  */
@@ -1170,7 +1217,7 @@ function when(value, fulfilled, rejected) {
     return promise.then(fulfilled, rejected);
 }
 
-},{"../promise":27,"../util":34}],20:[function(require,module,exports){
+},{"../promise":28,"../util":35}],21:[function(require,module,exports){
 /**
  * JSONP Interceptor.
  */
@@ -1190,7 +1237,7 @@ module.exports = {
 
 };
 
-},{"./client/jsonp":13}],21:[function(require,module,exports){
+},{"./client/jsonp":14}],22:[function(require,module,exports){
 /**
  * HTTP method override Interceptor.
  */
@@ -1209,7 +1256,7 @@ module.exports = {
 
 };
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Mime Interceptor.
  */
@@ -1247,7 +1294,7 @@ module.exports = {
 
 };
 
-},{"../util":34}],23:[function(require,module,exports){
+},{"../util":35}],24:[function(require,module,exports){
 /**
  * Timeout Interceptor.
  */
@@ -1279,7 +1326,7 @@ module.exports = function () {
     };
 };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * Install plugin.
  */
@@ -1334,7 +1381,7 @@ if (window.Vue) {
 
 module.exports = install;
 
-},{"./http":18,"./promise":27,"./resource":28,"./url":29,"./util":34}],25:[function(require,module,exports){
+},{"./http":19,"./promise":28,"./resource":29,"./url":30,"./util":35}],26:[function(require,module,exports){
 /**
  * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
  */
@@ -1515,7 +1562,7 @@ p.catch = function (onRejected) {
 
 module.exports = Promise;
 
-},{"../util":34}],26:[function(require,module,exports){
+},{"../util":35}],27:[function(require,module,exports){
 /**
  * URL Template v2.0.6 (https://github.com/bramstein/url-template)
  */
@@ -1667,7 +1714,7 @@ exports.encodeReserved = function (str) {
     }).join('');
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /**
  * Promise adapter.
  */
@@ -1778,7 +1825,7 @@ p.always = function (callback) {
 
 module.exports = Promise;
 
-},{"./lib/promise":25,"./util":34}],28:[function(require,module,exports){
+},{"./lib/promise":26,"./util":35}],29:[function(require,module,exports){
 /**
  * Service for interacting with RESTful services.
  */
@@ -1890,7 +1937,7 @@ Resource.actions = {
 
 module.exports = _.resource = Resource;
 
-},{"./util":34}],29:[function(require,module,exports){
+},{"./util":35}],30:[function(require,module,exports){
 /**
  * Service for URL templating.
  */
@@ -2022,7 +2069,7 @@ function serialize(params, obj, scope) {
 
 module.exports = _.url = Url;
 
-},{"../util":34,"./legacy":30,"./query":31,"./root":32,"./template":33}],30:[function(require,module,exports){
+},{"../util":35,"./legacy":31,"./query":32,"./root":33,"./template":34}],31:[function(require,module,exports){
 /**
  * Legacy Transform.
  */
@@ -2070,7 +2117,7 @@ function encodeUriQuery(value, spaces) {
         replace(/%20/g, (spaces ? '%20' : '+'));
 }
 
-},{"../util":34}],31:[function(require,module,exports){
+},{"../util":35}],32:[function(require,module,exports){
 /**
  * Query Parameter Transform.
  */
@@ -2096,7 +2143,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":34}],32:[function(require,module,exports){
+},{"../util":35}],33:[function(require,module,exports){
 /**
  * Root Prefix Transform.
  */
@@ -2114,7 +2161,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":34}],33:[function(require,module,exports){
+},{"../util":35}],34:[function(require,module,exports){
 /**
  * URL Template (RFC 6570) Transform.
  */
@@ -2132,7 +2179,7 @@ module.exports = function (options) {
     return url;
 };
 
-},{"../lib/url-template":26}],34:[function(require,module,exports){
+},{"../lib/url-template":27}],35:[function(require,module,exports){
 /**
  * Utility functions.
  */
@@ -2256,7 +2303,7 @@ function merge(target, source, deep) {
     }
 }
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /*!
  * vue-router v0.7.11
  * (c) 2016 Evan You
@@ -4906,7 +4953,7 @@ function merge(target, source, deep) {
   return Router;
 
 }));
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.17
@@ -14600,4 +14647,4 @@ if (devtools) {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":9}]},{},[6]);
+},{"_process":10}]},{},[7]);

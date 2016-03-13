@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Routes from './routes'
 import Auth from './auth'
+import AlertComponent from './components/alert.vue'
 
 // Plug in the plugins
 Vue.use(VueRouter)
@@ -13,14 +14,16 @@ var App = Vue.extend({
     data: function () {
         return {
             user: Auth.user,
-            alerts: []
+            alert: null
         }
+    },
+    components: {
+        'alert': AlertComponent
     },
     methods: {
         logout: function () {
             Auth.logout()
-            this.alerts.push({ type: 'success', message: "You've been logged out." })
-            //Materialize.toast("You've been logged out.", 4000)
+            this.alert = {type: 'success', message: "You've been logged out."}
         }
     }
 })
@@ -32,10 +35,6 @@ var router = new VueRouter({
 
 // Define routes
 router.map(Routes)
-
-router.afterEach(function (transition) {
-    console.log(App)
-})
 
 // Start the app
 router.start(App, '#app')

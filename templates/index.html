@@ -25,12 +25,7 @@
                 </div>
 
                 <div class="pad">
-                    <div class="card alert {{ alert.type }}" v-for="alert in alerts">
-                        <div class="card-content">
-                            {{ alert.message }}
-                        </div>
-                    </div>
-
+                    <div class="alerts"></div>
                     <router-view></router-view>
                 </div>
             </div>
