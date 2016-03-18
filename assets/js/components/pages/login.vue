@@ -21,7 +21,8 @@
 </template>
 
 <script>
-import Auth from '../auth'
+import Auth from '../../auth'
+import AlertComponent from '../alert.vue'
 
 module.exports = {
     data() {
@@ -30,8 +31,15 @@ module.exports = {
                 username: '',
                 password: ''
             },
-            errors: ''
+            errors: {
+                non_field_errors: false,
+                username: false,
+                password: false
+            }
         }
+    },
+    components: {
+        'alert': AlertComponent
     },
     methods: {
         submit() {
@@ -40,7 +48,7 @@ module.exports = {
                 password: this.credentials.password
             }
 
-            Auth.login(this, credentials, '/foo')
+            Auth.login(this, credentials, '/')
         }
     }
 }

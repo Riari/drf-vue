@@ -15,9 +15,31 @@ body {
     }
 
     .card.alert {
+        color: #fff;
+
+        &.info {
+            @extend .light-blue;
+        }
         &.success {
             @extend .teal;
+        }
+        &.warning {
+            @extend .orange.darken-3;
+        }
+        &.error {
+            @extend .deep-orange;
+        }
+
+        .fa-times {
+            float: right;
+            font-size: 22px;
             color: #fff;
+            opacity: 0.8;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 1.0;
+            }
         }
     }
 

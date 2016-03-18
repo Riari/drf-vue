@@ -16,21 +16,9 @@ i.style.opacity=tweenedOpacity}function h(){var a,b,c,d;a=Date.now(),b=a-B,B=a,c
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
-
-var _vueRouter = require('vue-router');
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
-var _routes = require('./routes');
-
-var _routes2 = _interopRequireDefault(_routes);
 
 var _utils = require('./utils');
 
@@ -38,22 +26,13 @@ var _utils2 = _interopRequireDefault(_utils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_vue2.default.use(_vueRouter2.default);
-
-var router = new _vueRouter2.default();
-router.map(_routes2.default);
-
 // URL and endpoint constants
 var API_URL = 'http://127.0.0.1/api/';
 var LOGIN_URL = API_URL + 'auth/token/';
 var SIGNUP_URL = API_URL + 'account/signup';
 
-exports.default = {
-    user: {
-        authenticated: false,
-        id: 0,
-        username: 'guest'
-    },
+var Auth = {
+    user: {},
 
     login: function login(context, creds, redirect) {
         var _this = this;
@@ -64,15 +43,16 @@ exports.default = {
             _this.user.authenticated = true;
             _this.setUserDataFromToken(data.token);
 
-            // Redirect to a specified route
+            context.$root.alert('success', "Welcome back, " + _this.user.username + "!");
+
             if (redirect) {
-                router.go(redirect);
+                context.$route.router.go(redirect);
             }
         }).error(function (err) {
             context.errors = err;
         });
     },
-    signup: function signup(context, creds, redirect) {
+    signup: function signup(context, creds) {
         var _this2 = this;
 
         context.$http.post(SIGNUP_URL, creds, function (data) {
@@ -82,18 +62,19 @@ exports.default = {
             _this2.setUserDataFromToken(data.token);
 
             if (redirect) {
-                router.go(redirect);
+                context.$route.router.go(redirect);
             }
         }).error(function (err) {
             context.errors = err;
         });
     },
-    logout: function logout() {
+    logout: function logout(context) {
         localStorage.removeItem('token');
         this.user.authenticated = false;
         this.resetUserData();
+        context.alert('success', "You've been logged out.");
     },
-    checkAuth: function checkAuth() {
+    check: function check() {
         var jwt = localStorage.getItem('token');
         if (jwt) {
             this.user.authenticated = true;
@@ -119,7 +100,11 @@ exports.default = {
     }
 };
 
-},{"./routes":8,"./utils":9,"vue":37,"vue-router":36}],2:[function(require,module,exports){
+Auth.check();
+
+module.exports = Auth;
+
+},{"./utils":10,"vue":38}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -140,19 +125,19 @@ module.exports = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"card alert {{ type }}\" v-if=\"show\">\n    <div class=\"card-content\">\n        <content></content>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"card alert {{ type }}\" v-if=\"show\" transition=\"fade\">\n    <div class=\"card-content\">\n        <i class=\"fa fa-times\" @click=\"show=false\"></i>\n        <slot></slot>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\alert.vue"
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/alert.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":37,"vue-hot-reload-api":11}],3:[function(require,module,exports){
+},{"vue":38,"vue-hot-reload-api":12}],3:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -162,14 +147,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\bar.vue"
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/pages/bar.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":37,"vue-hot-reload-api":11}],4:[function(require,module,exports){
+},{"vue":38,"vue-hot-reload-api":12}],4:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -179,19 +164,40 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\foo.vue"
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/pages/foo.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":37,"vue-hot-reload-api":11}],5:[function(require,module,exports){
+},{"vue":38,"vue-hot-reload-api":12}],5:[function(require,module,exports){
+"use strict";
+
+module.exports = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h1>drf-vue</h1>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/pages/home.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":38,"vue-hot-reload-api":12}],6:[function(require,module,exports){
 'use strict';
 
-var _auth = require('../auth');
+var _auth = require('../../auth');
 
 var _auth2 = _interopRequireDefault(_auth);
+
+var _alert = require('../alert.vue');
+
+var _alert2 = _interopRequireDefault(_alert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -202,10 +208,17 @@ module.exports = {
                 username: '',
                 password: ''
             },
-            errors: ''
+            errors: {
+                non_field_errors: false,
+                username: false,
+                password: false
+            }
         };
     },
 
+    components: {
+        'alert': _alert2.default
+    },
     methods: {
         submit: function submit() {
             var credentials = {
@@ -213,7 +226,7 @@ module.exports = {
                 password: this.credentials.password
             };
 
-            _auth2.default.login(this, credentials, '/foo');
+            _auth2.default.login(this, credentials, '/');
         }
     }
 };
@@ -223,14 +236,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\login.vue"
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/pages/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../auth":1,"vue":37,"vue-hot-reload-api":11}],6:[function(require,module,exports){
+},{"../../auth":1,"../alert.vue":2,"vue":38,"vue-hot-reload-api":12}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -251,31 +264,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "F:\\Projects\\Repos\\drf-vue\\assets\\js\\components\\user.vue"
+  var id = "/Users/rickmann/Projects/Personal/Repos/drf_vue/assets/js/components/pages/user.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":37,"vue-hot-reload-api":11}],7:[function(require,module,exports){
+},{"vue":38,"vue-hot-reload-api":12}],8:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueRouter = require('vue-router');
-
-var _vueRouter2 = _interopRequireDefault(_vueRouter);
-
 var _vueResource = require('vue-resource');
 
 var _vueResource2 = _interopRequireDefault(_vueResource);
 
-var _routes = require('./routes');
+var _router = require('./router');
 
-var _routes2 = _interopRequireDefault(_routes);
+var _router2 = _interopRequireDefault(_router);
 
 var _auth = require('./auth');
 
@@ -288,64 +297,95 @@ var _alert2 = _interopRequireDefault(_alert);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Plug in the plugins
-_vue2.default.use(_vueRouter2.default);
 _vue2.default.use(_vueResource2.default);
 
 // Define a root component to represent the app
 var App = _vue2.default.extend({
     data: function data() {
         return {
-            user: _auth2.default.user,
-            alert: null
+            user: {
+                authenticated: false,
+                id: 0,
+                username: 'guest'
+            },
+            alerts: []
         };
     },
+
     components: {
         'alert': _alert2.default
     },
     methods: {
+        alert: function alert(type, message) {
+            this.alerts.push({ type: type, message: message });
+        },
         logout: function logout() {
-            _auth2.default.logout();
-            this.alert = { type: 'success', message: "You've been logged out." };
+            _auth2.default.logout(this);
         }
+    },
+    ready: function ready() {
+        this.user = _auth2.default.user;
     }
 });
 
+// Start the app
+_router2.default.start(App, '#app');
+
+},{"./auth":1,"./components/alert.vue":2,"./router":9,"vue":38,"vue-resource":26}],9:[function(require,module,exports){
+'use strict';
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _vueRouter = require('vue-router');
+
+var _vueRouter2 = _interopRequireDefault(_vueRouter);
+
+var _home = require('./components/pages/home.vue');
+
+var _home2 = _interopRequireDefault(_home);
+
+var _bar = require('./components/pages/bar.vue');
+
+var _bar2 = _interopRequireDefault(_bar);
+
+var _foo = require('./components/pages/foo.vue');
+
+var _foo2 = _interopRequireDefault(_foo);
+
+var _user = require('./components/pages/user.vue');
+
+var _user2 = _interopRequireDefault(_user);
+
+var _login = require('./components/pages/login.vue');
+
+var _login2 = _interopRequireDefault(_login);
+
+var _auth = require('./auth');
+
+var _auth2 = _interopRequireDefault(_auth);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_vue2.default.use(_vueRouter2.default);
+
 // Create a router instance
-var router = new _vueRouter2.default({
+var Router = new _vueRouter2.default({
+    history: true,
     linkActiveClass: 'active'
 });
 
 // Define routes
-router.map(_routes2.default);
-
-// Start the app
-router.start(App, '#app');
-
-},{"./auth":1,"./components/alert.vue":2,"./routes":8,"vue":37,"vue-resource":25,"vue-router":36}],8:[function(require,module,exports){
-'use strict';
-
-var _bar = require('./components/bar.vue');
-
-var _bar2 = _interopRequireDefault(_bar);
-
-var _foo = require('./components/foo.vue');
-
-var _foo2 = _interopRequireDefault(_foo);
-
-var _user = require('./components/user.vue');
-
-var _user2 = _interopRequireDefault(_user);
-
-var _login = require('./components/login.vue');
-
-var _login2 = _interopRequireDefault(_login);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = {
+Router.map({
+    '/': {
+        name: 'home',
+        component: _home2.default
+    },
     '/bar': {
         name: 'bar',
-        component: _bar2.default
+        component: _bar2.default,
+        auth: true
     },
     '/foo': {
         name: 'foo',
@@ -353,15 +393,28 @@ module.exports = {
     },
     '/account/login': {
         name: 'account.login',
-        component: _login2.default
+        component: _login2.default,
+        guest: true
     },
     '/user/:user_id': {
         name: 'user',
         component: _user2.default
     }
-};
+});
 
-},{"./components/bar.vue":3,"./components/foo.vue":4,"./components/login.vue":5,"./components/user.vue":6}],9:[function(require,module,exports){
+Router.beforeEach(function (transition) {
+    if (transition.to.auth && !_auth2.default.user.authenticated) {
+        transition.redirect('/account/login');
+    } else if (transition.to.guest && _auth2.default.user.authenticated) {
+        transition.redirect('/');
+    } else {
+        transition.next();
+    }
+});
+
+module.exports = Router;
+
+},{"./auth":1,"./components/pages/bar.vue":3,"./components/pages/foo.vue":4,"./components/pages/home.vue":5,"./components/pages/login.vue":6,"./components/pages/user.vue":7,"vue":38,"vue-router":37}],10:[function(require,module,exports){
 'use strict';
 
 var _alert = require('./components/alert.vue');
@@ -373,16 +426,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = {
     jwt_decode: function jwt_decode(token) {
         return JSON.parse(window.atob(token.split('.')[1]));
-    },
-
-    show_alert: function show_alert(type, message) {
-        var persist = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-
-        new _alert2.default({ type: type, message: message, persist: persist }).$mount().$appendTo('#app .alerts');
     }
 };
 
-},{"./components/alert.vue":2}],10:[function(require,module,exports){
+},{"./components/alert.vue":2}],11:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -475,7 +522,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -775,7 +822,7 @@ function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * Before Interceptor.
  */
@@ -795,7 +842,7 @@ module.exports = {
 
 };
 
-},{"../util":35}],13:[function(require,module,exports){
+},{"../util":36}],14:[function(require,module,exports){
 /**
  * Base client.
  */
@@ -862,7 +909,7 @@ function parseHeaders(str) {
     return headers;
 }
 
-},{"../../promise":28,"../../util":35,"./xhr":16}],14:[function(require,module,exports){
+},{"../../promise":29,"../../util":36,"./xhr":17}],15:[function(require,module,exports){
 /**
  * JSONP client.
  */
@@ -912,7 +959,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":28,"../../util":35}],15:[function(require,module,exports){
+},{"../../promise":29,"../../util":36}],16:[function(require,module,exports){
 /**
  * XDomain client (Internet Explorer).
  */
@@ -951,7 +998,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":28,"../../util":35}],16:[function(require,module,exports){
+},{"../../promise":29,"../../util":36}],17:[function(require,module,exports){
 /**
  * XMLHttp client.
  */
@@ -1003,7 +1050,7 @@ module.exports = function (request) {
     });
 };
 
-},{"../../promise":28,"../../util":35}],17:[function(require,module,exports){
+},{"../../promise":29,"../../util":36}],18:[function(require,module,exports){
 /**
  * CORS Interceptor.
  */
@@ -1042,7 +1089,7 @@ function crossOrigin(request) {
     return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
 }
 
-},{"../util":35,"./client/xdr":15}],18:[function(require,module,exports){
+},{"../util":36,"./client/xdr":16}],19:[function(require,module,exports){
 /**
  * Header Interceptor.
  */
@@ -1070,7 +1117,7 @@ module.exports = {
 
 };
 
-},{"../util":35}],19:[function(require,module,exports){
+},{"../util":36}],20:[function(require,module,exports){
 /**
  * Service for sending network requests.
  */
@@ -1170,7 +1217,7 @@ Http.headers = {
 
 module.exports = _.http = Http;
 
-},{"../promise":28,"../util":35,"./before":12,"./client":13,"./cors":17,"./header":18,"./interceptor":20,"./jsonp":21,"./method":22,"./mime":23,"./timeout":24}],20:[function(require,module,exports){
+},{"../promise":29,"../util":36,"./before":13,"./client":14,"./cors":18,"./header":19,"./interceptor":21,"./jsonp":22,"./method":23,"./mime":24,"./timeout":25}],21:[function(require,module,exports){
 /**
  * Interceptor factory.
  */
@@ -1217,7 +1264,7 @@ function when(value, fulfilled, rejected) {
     return promise.then(fulfilled, rejected);
 }
 
-},{"../promise":28,"../util":35}],21:[function(require,module,exports){
+},{"../promise":29,"../util":36}],22:[function(require,module,exports){
 /**
  * JSONP Interceptor.
  */
@@ -1237,7 +1284,7 @@ module.exports = {
 
 };
 
-},{"./client/jsonp":14}],22:[function(require,module,exports){
+},{"./client/jsonp":15}],23:[function(require,module,exports){
 /**
  * HTTP method override Interceptor.
  */
@@ -1256,7 +1303,7 @@ module.exports = {
 
 };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Mime Interceptor.
  */
@@ -1294,7 +1341,7 @@ module.exports = {
 
 };
 
-},{"../util":35}],24:[function(require,module,exports){
+},{"../util":36}],25:[function(require,module,exports){
 /**
  * Timeout Interceptor.
  */
@@ -1326,7 +1373,7 @@ module.exports = function () {
     };
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Install plugin.
  */
@@ -1381,7 +1428,7 @@ if (window.Vue) {
 
 module.exports = install;
 
-},{"./http":19,"./promise":28,"./resource":29,"./url":30,"./util":35}],26:[function(require,module,exports){
+},{"./http":20,"./promise":29,"./resource":30,"./url":31,"./util":36}],27:[function(require,module,exports){
 /**
  * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
  */
@@ -1562,7 +1609,7 @@ p.catch = function (onRejected) {
 
 module.exports = Promise;
 
-},{"../util":35}],27:[function(require,module,exports){
+},{"../util":36}],28:[function(require,module,exports){
 /**
  * URL Template v2.0.6 (https://github.com/bramstein/url-template)
  */
@@ -1714,7 +1761,7 @@ exports.encodeReserved = function (str) {
     }).join('');
 };
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * Promise adapter.
  */
@@ -1825,7 +1872,7 @@ p.always = function (callback) {
 
 module.exports = Promise;
 
-},{"./lib/promise":26,"./util":35}],29:[function(require,module,exports){
+},{"./lib/promise":27,"./util":36}],30:[function(require,module,exports){
 /**
  * Service for interacting with RESTful services.
  */
@@ -1937,7 +1984,7 @@ Resource.actions = {
 
 module.exports = _.resource = Resource;
 
-},{"./util":35}],30:[function(require,module,exports){
+},{"./util":36}],31:[function(require,module,exports){
 /**
  * Service for URL templating.
  */
@@ -2069,7 +2116,7 @@ function serialize(params, obj, scope) {
 
 module.exports = _.url = Url;
 
-},{"../util":35,"./legacy":31,"./query":32,"./root":33,"./template":34}],31:[function(require,module,exports){
+},{"../util":36,"./legacy":32,"./query":33,"./root":34,"./template":35}],32:[function(require,module,exports){
 /**
  * Legacy Transform.
  */
@@ -2117,7 +2164,7 @@ function encodeUriQuery(value, spaces) {
         replace(/%20/g, (spaces ? '%20' : '+'));
 }
 
-},{"../util":35}],32:[function(require,module,exports){
+},{"../util":36}],33:[function(require,module,exports){
 /**
  * Query Parameter Transform.
  */
@@ -2143,7 +2190,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":35}],33:[function(require,module,exports){
+},{"../util":36}],34:[function(require,module,exports){
 /**
  * Root Prefix Transform.
  */
@@ -2161,7 +2208,7 @@ module.exports = function (options, next) {
     return url;
 };
 
-},{"../util":35}],34:[function(require,module,exports){
+},{"../util":36}],35:[function(require,module,exports){
 /**
  * URL Template (RFC 6570) Transform.
  */
@@ -2179,7 +2226,7 @@ module.exports = function (options) {
     return url;
 };
 
-},{"../lib/url-template":27}],35:[function(require,module,exports){
+},{"../lib/url-template":28}],36:[function(require,module,exports){
 /**
  * Utility functions.
  */
@@ -2303,7 +2350,7 @@ function merge(target, source, deep) {
     }
 }
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /*!
  * vue-router v0.7.11
  * (c) 2016 Evan You
@@ -4953,7 +5000,7 @@ function merge(target, source, deep) {
   return Router;
 
 }));
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.17
@@ -14647,4 +14694,4 @@ if (devtools) {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":10}]},{},[7]);
+},{"_process":11}]},{},[8]);

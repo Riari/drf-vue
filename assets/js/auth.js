@@ -1,23 +1,13 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Routes from './routes'
 import Utils from './utils'
-Vue.use(VueRouter)
-
-var router = new VueRouter()
-router.map(Routes)
 
 // URL and endpoint constants
 const API_URL = 'http://127.0.0.1/api/'
 const LOGIN_URL = API_URL + 'auth/token/'
 const SIGNUP_URL = API_URL + 'account/signup'
 
-export default {
-    user: {
-        authenticated: false,
-        id: 0,
-        username: 'guest'
-    },
+var Auth = {
+    user: {},
 
     login(context, creds, redirect) {
         context.$http.post(LOGIN_URL, creds, (data) => {
@@ -26,9 +16,10 @@ export default {
             this.user.authenticated = true
             this.setUserDataFromToken(data.token)
 
-            // Redirect to a specified route
+            context.$root.alert('success', "Welcome back, " + this.user.username + "!")
+
             if (redirect) {
-                router.go(redirect)
+                context.$route.router.go(redirect)
             }
         }).error((err) => {
             context.errors = err
@@ -43,20 +34,21 @@ export default {
             this.setUserDataFromToken(data.token)
 
             if (redirect) {
-                router.go(redirect)
+                context.$route.router.go(redirect)
             }
         }).error((err) => {
             context.errors = err
         })
     },
 
-    logout() {
+    logout(context) {
         localStorage.removeItem('token')
         this.user.authenticated = false
         this.resetUserData()
+        context.alert('success', "You've been logged out.")
     },
 
-    checkAuth() {
+    check() {
         var jwt = localStorage.getItem('token')
         if (jwt) {
             this.user.authenticated = true
@@ -84,3 +76,7 @@ export default {
         }
     }
 }
+
+Auth.check()
+
+module.exports = Auth

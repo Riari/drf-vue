@@ -1,7 +1,8 @@
 <template>
-    <div class="card alert {{ type }}" v-if="show">
+    <div class="card alert {{ type }}" v-if="show" transition="fade">
         <div class="card-content">
-            <content></content>
+            <i class="fa fa-times" @click="show=false"></i>
+            <slot></slot>
         </div>
     </div>
 </template>

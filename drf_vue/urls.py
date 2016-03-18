@@ -24,10 +24,10 @@ router.register(r'users', UserViewSet)
 
 # Wire up our API using automatic URL routing.
 urlpatterns = [
-    url(r'^$', IndexView.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
     url(r'^api/auth/token/', obtain_jwt_token),
     url(r'^api/auth/token/verify/', verify_jwt_token),
-    url(r'^api/auth/token/refresh/', refresh_jwt_token)
+    url(r'^api/auth/token/refresh/', refresh_jwt_token),
+    url(r'^.*$', IndexView.as_view())
 ] + static(settings.STATIC_URL)

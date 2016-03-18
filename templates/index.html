@@ -12,20 +12,21 @@
                 <nav class="blue-grey lighten-4 no-shadow">
                     <div class="nav-wrapper">
                         <ul class="hide-on-med-and-down">
+                            <li v-link-active><a v-link="{ name: 'home', exact: true }">Home</a></li>
                             <li v-link-active><a v-link="{ path: '/foo' }">Foo</a></li>
                             <li v-link-active><a v-link="{ path: '/bar' }">Bar</a></li>
-                            <li v-link-active v-if="!user.authenticated"><a v-link="{ name: 'account.login' }">Log in</a></li>
-                            <li v-link-active v-if="user.authenticated"><a v-link="{ name: 'account.login' }" @click="logout()">Logout</a></li>
                         </ul>
                     </div>
                 </nav>
 
                 <div class="user-bar blue-grey-text text-lighten-3 right-align">
-                    Hello, <strong>{{ user.username }}</strong>!
+                    Hello, <strong>{{ user.username }}</strong>!<br>
+                    <a v-link="{ name: 'account.login' }" v-if="!user.authenticated">Log in</a>
+                    <a v-link="{ name: 'account.login' }" @click="logout()" v-if="user.authenticated">Log out</a>
                 </div>
 
                 <div class="pad">
-                    <div class="alerts"></div>
+                    <alert v-for="alert in alerts" :type="alert.type" :persist="false">{{ alert.message }}</alert>
                     <router-view></router-view>
                 </div>
             </div>
